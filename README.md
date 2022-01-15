@@ -8,7 +8,7 @@
     </p>
 </div>
 
-[![CI](https://github.com/josemf/natural-string-generator/workflows/Node.js%20CI/badge.svg)](https://github.com/josemf/keystone-adapter-knex-migrations/actions)
+[![CI](https://github.com/josemf/natural-string-generator/workflows/Node.js%20CI/badge.svg)](https://github.com/josemf/natural-string-generator/actions)
 
 ## Contents
 
