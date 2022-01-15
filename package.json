@@ -1,0 +1,45 @@
+{
+    "name": "natural-string-generator",
+    "version": "1.0.0",
+    "description": "A predicatable template based string generator.",
+    "main": "dist/index.js",
+    "scripts": {
+        "build": "babel ./src --out-dir dist --source-maps",
+        "test": "jest --colors --runInBand"
+    },
+    "dependencies": {
+        "lodash": "^4.17.21",
+        "to-space-case": "^1.0.0",
+        "pluralize": "^8.0.0"     
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.12.10",
+        "@babel/core": "^7.12.10",
+        "@babel/preset-env": "^7.12.11",
+        "babel-jest": "^26.6.3",
+        "jest": "^26.6.3",
+        "jest-expect-message": "^1.0.2"
+    },    
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/josemf/natural-string-generator.git"
+    },
+    "keywords": [
+        "nlp",
+        "natural",
+        "template",
+        "engine",
+        "string",
+        "expansion",
+        "token",
+        "interpolation",
+        "modifiers",
+        "annotations"
+    ],
+    "author": "José da Mata",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/josemf/natural-string-generator/issues"
+    },
+    "homepage": "https://github.com/josemf/natural-string-generator#readme"
+}
