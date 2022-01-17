@@ -355,4 +355,67 @@ describe("Testing my-little-pony", () => {
 
         expect(() => Modifiers.add("modmod", "Shorthands take only 1 character", () => ({}), "xz")).toThrow();        
     });
+
+    test('Testing interpolation with `with` API', () => {
+        const template = new Template();
+
+        template.with([
+            'this is one frase',
+            'this is the second phrase',
+            'and a third one'
+        ]);
+        
+        expect(template.text()).toStrictEqual([
+            'this is one frase',
+            'this is the second phrase',
+            'and a third one'
+        ])
+
+        const template2 = new Template();
+
+        template2.with([
+            'this is one frase',
+            'this is the second phrase',
+            'and a third one'
+        ], [
+            'combined with one',
+            'combined with other'
+        ]);
+        
+        expect(template2.text()).toStrictEqual([
+            'this is one frase combined with one',
+            'this is one frase combined with other',            
+            'this is the second phrase combined with one',
+            'this is the second phrase combined with other',            
+            'and a third one combined with one',
+            'and a third one combined with other',            
+        ])
+
+        const template3 = new Template();
+
+        template3.with([
+            'this is one frase',
+            'this is the second phrase',
+            'and a third one'
+        ], [
+            'combined with one',
+            '^this is solo',            
+            'combined with other'
+        ], [
+            '^and a second solo',
+            'triplebined yeah'
+        ]);
+
+        expect(template3.text()).toStrictEqual([
+            'and a second solo',
+            'this is one frase combined with one triplebined yeah',
+            'this is solo triplebined yeah',
+            'this is one frase combined with other triplebined yeah',
+            'this is the second phrase combined with one triplebined yeah',                                    
+            'this is the second phrase combined with other triplebined yeah',
+            'and a third one combined with one triplebined yeah',                                    
+            'and a third one combined with other triplebined yeah',
+
+        ])                
+    });
 });

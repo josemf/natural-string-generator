@@ -2,6 +2,31 @@ import path from 'path';
 import fs   from 'fs';
 
 import merge from 'lodash/merge';
+import uniq from 'lodash/uniq';
+
+function arrayOfStrings (phrases) {
+
+    if(phrases instanceof Array) {
+        return phrases.map(phrase => {
+
+            if(typeof phrase !== "string") {
+                throw Error(`Templates required to be string`);
+            }
+        
+            return phrase;
+        })
+    }
+
+    if(typeof phrases === "undefined") {
+        return [];
+    }
+
+    if(typeof phrases !== "string") {
+        throw Error(`Templates required to be string`);
+    }
+
+    return [ phrases ];
+}
 
 export class Template {
 
@@ -29,9 +54,45 @@ export class Template {
         this._variants = merge({}, Variants.Loaded, options.variants || {});
     }
 
-    with(phrases) {
-        this._phrases = phrases instanceof Array ? phrases : (typeof phrases === "undefined" ? [] : [ phrases ]);
-        return this;        
+    with(... multiplePhrasesExpansions) {
+
+        if(multiplePhrasesExpansions.length === 0) {
+            return this;
+        }
+        
+        // or just a set of phrases
+        if(multiplePhrasesExpansions.length === 1) {
+            this._phrases = arrayOfStrings(multiplePhrasesExpansions[0]);
+            return this;                    
+        }
+        
+        const phrasesToCombine = multiplePhrasesExpansions.map(phrases => arrayOfStrings(phrases));
+
+        // lets combine
+
+        let combiningPhrases = phrasesToCombine.shift();
+        let workingPhrases;
+        
+        while((workingPhrases = phrasesToCombine.shift())) {
+            let stepCombineAllExistent = [];
+
+            combiningPhrases.forEach(previousPhrase => {
+                workingPhrases.forEach(workingPhrase => {
+
+                    if('^' === workingPhrase.charAt(0)) {
+                        stepCombineAllExistent.push(workingPhrase.substr(1))
+                    } else {                    
+                        stepCombineAllExistent.push(`${previousPhrase} ${workingPhrase}`)
+                    }
+                });
+            });
+
+            combiningPhrases = stepCombineAllExistent;
+        }
+
+        // unique
+        this._phrases = uniq(combiningPhrases);
+        return this;
     }
     
     _resolveAltTemplateVariable(templateVar, variables) {

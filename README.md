@@ -67,6 +67,27 @@ template.build({ what: ["this", "that"] });
 */
 ```
 
+Alternative generation templates can be passed by `Template.with()`. This method can be passed a variable number of arguments that are combined into multiple templates.
+
+```javascript
+import { Template } from 'natural-string-generator';
+
+const template = Template();
+
+template
+	.with(`I [like|love] to #build# {$what|join:,}`, [ 'and {$some} food', 'and I say no more' ])
+    .text{ what: ["this", "that"], some: "spicy" });
+
+/*
+[
+	"I like to build this and that and spicy food"
+	"I like to build this and that and I say no more"
+	"I love to build this and that and spicy food"
+	"I love to build this and that and I say no more"
+]
+*/
+```
+
 Read more to learn about all the features.
 
 ## Token interpolation
