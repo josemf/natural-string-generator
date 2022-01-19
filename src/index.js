@@ -37,7 +37,7 @@ export class Template {
     static RegexpConditionals = /\?\{([^\|}]+)\|?([^}]+)?\}(\{[^}]+\})(\{[^}]+\})?/ig
     static RegexpConditionalModifiers = /([\|\&])([a-zA-Z0-9_:]+)/ig
     static RegexpVariants = /(?<!\\)#([^#]+)(?<!\\)#/ig
-    static RegexpAnnotations = /(?<!\\)@([a-zA-Z0-9_\-]+)/ig    
+    static RegexpAnnotations = /[^a-zA-Z0-9_\-](?<!\\)@([a-zA-Z0-9_\-]+)/ig    
     
     constructor(phrases, options = {}) {        
 
