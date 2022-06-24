@@ -278,6 +278,9 @@ describe("Testing my-little-pony", () => {
         expect(templateS("{upcaseFirstLetter|capitalize:true} and not {capitalize|capitalize:true} but works {anyway|capitalize} and {whatever}C"))
             .toStrictEqual([ "UpcaseFirstLetter and not capitalize but works Anyway and Whatever" ])
 
+        expect(templateS("{LOWeRcaSe|lowercase} and not {capitaliZe}l but works {anyway|lowercase} and {WhaTEver|lowercase}C"))
+            .toStrictEqual([ "lowercase and not capitalize but works anyway and Whatever" ])        
+
         const joinData = [ "asd", "xpto", "zbr" ];
 
         expect(templateS("Will do a join {$joinData|join:,}", { joinData })).toStrictEqual(["Will do a join asd, xpto and zbr"])
