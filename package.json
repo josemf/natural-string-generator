@@ -1,6 +1,6 @@
 {
     "name": "natural-string-generator",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A predicatable template based string generator.",
     "main": "dist/index.js",
     "scripts": {
@@ -10,7 +10,7 @@
     "dependencies": {
         "lodash": "^4.17.21",
         "to-space-case": "^1.0.0",
-        "pluralize": "^8.0.0"     
+        "pluralize": "^8.0.0"
     },
     "devDependencies": {
         "@babel/cli": "^7.12.10",
