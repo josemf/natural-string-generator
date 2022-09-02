@@ -3,7 +3,7 @@ export const name = "join";
 export const description = "Accepts an array and join using the supplied character. If the character is a virgule it will do a separate the last item with an `and`.";
 
 export function module(context, values, joinChar) {
-    if(!values instanceof Array) {
+    if(!(values instanceof Array)) {
         throw Error(`{var|join:x} Can only join array variables`);
     }
     
@@ -17,6 +17,6 @@ export function module(context, values, joinChar) {
 
         return tmpValues.join(", ") + " and " + lastValue;
     }
-
+    
     return values.join(joinChar);
 }
