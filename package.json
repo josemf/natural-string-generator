@@ -3,9 +3,13 @@
     "version": "1.0.4",
     "description": "A predicatable template based string generator.",
     "main": "dist/index.js",
+    "files": [
+        "dist"
+    ],    
     "scripts": {
         "build": "babel ./src --out-dir dist --source-maps",
-        "test": "jest --colors --runInBand"
+        "test": "jest --colors --runInBand",
+        "prepare": "yarn build"        
     },
     "dependencies": {
         "lodash": "^4.17.21",
