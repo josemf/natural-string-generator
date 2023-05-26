@@ -465,6 +465,15 @@ export class Template {
         return conditionalExecutions.reduce((result, execution) =>
                                             execution(variableValue, result), false);        
     }
+
+    _replaceVariablesSimple(phrase, variables) {        
+        Object.keys(variables).forEach(variableName => {
+            const regex = new RegExp(`\\$${variableName}`, 'g');            
+            phrase = phrase.replace(regex, variables[variableName]);            
+        })
+        
+        return phrase;
+    }
     
     _resolveConditionals(phrases, variables) {
 
@@ -473,7 +482,7 @@ export class Template {
             let phrase = p;
             
             const tokensFound = [ ... phrase.matchAll(Template.RegexpConditionals) ];
-
+            
             tokensFound.forEach(condToken => {
                 const variableName = condToken[1];
                 const variableValue = variableName.charAt(0) === '$' ?
@@ -482,12 +491,9 @@ export class Template {
                 const modifiersLine = condToken[2];
                 const thenTemplate = condToken[3];
                 const elseTemplate = condToken[4];
-                
-                if(this._conditionalResolvesTrue(variableValue, modifiersLine)) {
-                    phrase = phrase.replace(condToken[0], thenTemplate);
-                } else {
-                    phrase = phrase.replace(condToken[0], elseTemplate || "");
-                }
+
+                const replaceValue = this._replaceVariablesSimple(this._conditionalResolvesTrue(variableValue, modifiersLine) ? thenTemplate : (elseTemplate || ""), variables);
+                phrase = phrase.replace(condToken[0], replaceValue);
             });
                 
             return this._normalizeText(phrase);
@@ -601,6 +607,8 @@ export class Template {
     }
     
     _normalize(s) {
+        // clean escape characters for template tags
+        
         return s.map(result => {
             return Object.assign({}, result, { text: this._cleanEscape(result.text) });
         });       
@@ -609,9 +617,8 @@ export class Template {
     _normalizeText(s) {
         // remove double whitespace
 
-        s = s.trim().replace(/\s\s/g, ' ');
-
-        // clean escape characters for template tags
+        s = s.trim().replace(/\s\s/g, ' ')
+            .replace(/\s+(,|\.)/g, '$1');
 
         return s;        
     }

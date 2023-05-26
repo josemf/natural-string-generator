@@ -421,4 +421,13 @@ describe("Testing my-little-pony", () => {
 
         ])                
     });
+
+    test('Conditionals support variable substitution inside then an else clauses', () => {
+        expect(templateS("?{$var1|eq:yes}{This was an $var2. Wasn't it?}{Not}", { var1: true, var2: "amazing outcome" })).toStrictEqual([ "This was an amazing outcome. Wasn't it?" ]);
+        expect(templateS("?{$var1|neq:yes}{This was an $var2. Wasn't it?}{Not $var1}", { var1: true, var2: "amazing outcome" })).toStrictEqual([ "Not true" ]);                
+    });
+
+    test('<space>. and <space>, should remove space before the signal', () => {
+        expect(templateS("This is a test with {$replacement}, that went well?{$var1|eq:yes}{yes}{ }.", { replacement: "", var1: "no" })).toStrictEqual([ "This is a test with, that went well." ]);                
+    });
 });
